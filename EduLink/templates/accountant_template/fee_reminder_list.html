@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Reminders</title>
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Fee Reminders</h1>
+    <form id="sendReminderForm" method="POST" action="{% url 'send_fee_reminder' %}">
+        {% csrf_token %}
+        <button type="button" onclick="sendFeeReminders()">Send Fee Reminders to All Students</button>
+    </form>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fee Reminders</title>
+        <!-- Add jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <h1>Fee Reminders</h1>
+        <form id="sendReminderForm" method="POST" action="{% url 'send_fee_reminder' %}">
+            {% csrf_token %}
+            <button type="button" onclick="sendFeeReminders()">Send Fee Reminders to All Students</button>
+        </form>
+        <table border="1">
+            <!-- Table content -->
+        </table>
+    
+        <script>
+            function sendFeeReminders() {
+                $.ajax({
+                    url: '{% url "send_fee_reminder" %}',
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert("Fee reminders sent successfully.");
+                        } else {
+                            alert("Failed to send fee reminders.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert("An error occurred while sending fee reminders.");
+                    }
+                });
+            }
+        </script>
+    </body>
+    </html>
+    
+
+    <script>
+        function sendFeeReminders() {
+            $.ajax({
+                url: '{% url "send_fee_reminder" %}',
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert("Fee reminders sent successfully.");
+                    } else {
+                        alert("Failed to send fee reminders.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert("An error occurred while sending fee reminders.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

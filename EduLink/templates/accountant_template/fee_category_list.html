@@ -1,0 +1,58 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}Fee Category List{% endblock page_title %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Fee Category List</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Course</th>
+                                    <th>Session</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fee_category in fee_categories %}
+                                <tr>
+                                    <td>{{ fee_category.name }}</td>
+                                    <td>{{ fee_category.description }}</td>
+                                    <td>{{ fee_category.amount }}</td>
+                                    <td>{{ fee_category.course }}</td>
+                                    <td>{{ fee_category.session }}</td>
+                                    <td>{{ fee_category.created_at }}</td>
+                                    <td>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm" name="delete_fee_category" value="{{ fee_category.id }}">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+{% endblock content %}

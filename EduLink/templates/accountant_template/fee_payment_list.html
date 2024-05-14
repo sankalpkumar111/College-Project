@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Reminders</title>
+</head>
+<body>
+    <h1>Fee Reminders</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Fee Category</th>
+                <th>Due Date</th>
+                <th>Reminder Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fee_reminder in fee_reminders %}
+            <tr>
+                <td>{{ fee_reminder.student.admin.get_full_name }}</td>
+                <td>{{ fee_reminder.fee_category.name }}</td>
+                <td>{{ fee_reminder.due_date }}</td>
+                <td>{{ fee_reminder.reminder_date }}</td>
+                <td>{% if fee_reminder.status %}Paid{% else %}Pending{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

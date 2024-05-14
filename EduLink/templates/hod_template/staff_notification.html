@@ -1,0 +1,128 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ page_title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Course</th>
+                                    <th>Avatar</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for staff in allStaff %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ staff.last_name }}, {{ staff.first_name }}</td>
+                                    <td>{{ staff.email }}</td>
+                                    <td>{{ staff.gender }}</td>
+                                    <td>{{ staff.staff.course.name }}</td>
+                                    <td>
+                                        {% if staff.profile_pic %}
+                                        <img class="img img-fluid mb-2" height="56" width="56"
+                                            src="{{ staff.profile_pic }}" alt="">
+                                        {% else %}
+                                        No Image
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button data-toggle="modal" data-target="#myModal" class="btn btn-primary show_notification" data-staff-id="{{ staff.id }}">Send Notification</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Send Notification</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="hidden" id="staff_id" class="form-control">
+                    <label for="message">Message:</label>
+                    <input type="text" id="message" class='form-control'>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="send" class="btn btn-primary send_notification">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js %}
+<script src="{% static 'path/to/jquery.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $(".show_notification").click(function() {
+            $("#staff_id").val($(this).data('staff-id'));
+        });
+
+        $(".send_notification").click(function() {
+            var id = $("#staff_id").val();
+            var message = $("#message").val();
+            
+            // Check if staff_id is empty
+            if (!id) {
+                alert("Staff ID is required");
+                return;
+            }
+
+            sendNotification(id, message);
+        });
+
+        function sendNotification(id, message) {
+            $.ajax({
+                url: "{% url 'send_staff_notification' %}",
+                type: 'POST',
+                data: {
+                    id: id,
+                    message: message
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert("Notification could not be saved. Please try again.");
+                    } else {
+                        alert("Notification Sent");
+                        location.reload();
+                        
+                      
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("Error in sending notification");
+                    console.error(xhr.responseText); // Log detailed error message
+                }
+            });
+        }
+    });
+</script>
+{% endblock custom_js %}

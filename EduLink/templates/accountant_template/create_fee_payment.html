@@ -1,0 +1,18 @@
+{% extends 'main_app/base.html' %}
+
+{% block page_title %}Create Fee Payment{% endblock page_title %}
+
+{% block content %}
+<!-- Template for fee payment form -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <div>
+        <label for="payment_date">Payment Date</label>
+        <input type="date" name="payment_date" id="payment_date">
+    </div>
+    <button type="submit">Submit Payment</button>
+</form>
+
+{% endblock content %}

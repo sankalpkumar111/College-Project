@@ -1,0 +1,33 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}Paid fee student name{% endblock page_title %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Students Who Have Paid Fee</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Student ID</th>
+                    <th scope="col">Student Name</th>
+                    <th scope="col">Payment Date</th>
+                    <th scope="col">Amount Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in paid_students %}
+                    <tr>
+                        <td>{{ student.student_id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.payment_date }}</td>
+                        <td>{{ student.amount_paid }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block custom_js %}
+{% endblock custom_js %}

@@ -1,0 +1,147 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}Accountant Dashboard{% endblock page_title %}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ total_students }}</h3>
+                        <p>Total Students</p>
+                    </div>
+                    <div class="icon">
+                      <i class="nav-icon fas fa-user-graduate"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ total_paid_students }}</h3>
+                        <p>Total Paid Students</p>
+                    </div>
+                    <div class="icon">
+                      <i class="nav-icon fas fa-money-check-alt"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ unpaid_students }}</h3>
+                        <p>Total Unpaid Students</p>
+                    </div>
+                    <div class="icon">
+                      <i class="nav-icon fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- PIE CHART for Fee Distribution -->
+                <div class="card card-secondary">
+                  <div class="card-header">
+                    <h3 class="card-title">Fee Distribution</h3>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="feeDistributionChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!-- BAR CHART for Fee Comparison -->
+                <div class="card card-secondary">
+                  <div class="card-header">
+                    <h3 class="card-title">Fee Comparison</h3>
+                  </div>
+                  <div class="card-body">
+                    <canvas id="feeComparisonChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+  <script>
+$(document).ready(function(){
+
+    // Dataset
+    var categories = {{ categories|safe }}
+feeData = {{ fee_data }}
+
+    // -------------
+    // PIE CHART for Fee Distribution
+    var feeDistributionCanvas = $('#feeDistributionChart').get(0).getContext('2d')
+    var pieData = {
+      labels: categories,
+      datasets: [{
+        data: feeData,
+        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#f8f9fa', '#6c757d', '#343a40'],
+      }]
+    }
+    var pieOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    var feeDistributionChart = new Chart(feeDistributionCanvas, {
+      type: 'pie',
+      data: pieData,
+      options: pieOptions
+    });
+
+    // -------------
+    // BAR CHART for Fee Comparison
+    var feeComparisonCanvas = $('#feeComparisonChart').get(0).getContext('2d')
+    var barData = {
+      labels: categories,
+      datasets: [{
+        label: 'Fees',
+        backgroundColor: '#007bff',
+        borderColor: '#007bff',
+        data: feeData,
+      }]
+    }
+    var barOptions = {
+      maintainAspectRatio: false,
+      responsive: true,
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+            display: false
+          },
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+    var feeComparisonChart = new Chart(feeComparisonCanvas, {
+      type: 'bar',
+      data: barData,
+      options: barOptions
+    });
+
+})
+  </script>
+{% endblock custom_js %}
