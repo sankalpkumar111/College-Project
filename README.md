@@ -1,7 +1,7 @@
 EduLink-Integrated College Management and Communication System 
 # College Enterprise Resource Planner
 
-Welcome to the College Enterprise Resource Planner! This project was developed by me and my project partners for our college using Python/Django Framework. This fully functional web application aims to streamline various administrative and academic processes within the college environment.
+Welcome to the College Enterprise Resource Planner! This project was developed by me  for my college Projecr  using Python/Django Framework. This fully functional web application aims to streamline various administrative and academic processes within the college environment.
 
 ## Features
 
@@ -167,4 +167,4 @@ Your support motivates the developer to maintain and enhance the project, ensuri
 ## Contributors
 
 - Sankalp kumar
-
+www.linkedin.com/in/sankalp-kumar-986b12218
