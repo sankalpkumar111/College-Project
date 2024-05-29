@@ -9,7 +9,7 @@ from .forms import FeeCategoryForm, FeeReminderForm,FeePaymentForm
 from django.db.models import Count
 from django.template.loader import get_template
 from django.template import Context
-# from reportlab.pdfgen import canvas
+from reportlab.pdfgen import canvas
 from io import BytesIO
 import json
 import requests
